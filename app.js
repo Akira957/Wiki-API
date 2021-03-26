@@ -23,7 +23,9 @@ const wikiSchema = {
 
 const Article = mongoose.model("Article", wikiSchema);
 
-app.get("/articles", function(req, res) {
+app.route("/articles")
+
+.get(function(req, res) {
     Article.find({}, function(err, results) {
         if(!err) {
            res.send(results); 
@@ -31,9 +33,9 @@ app.get("/articles", function(req, res) {
             res.send(err);
         }  
     });
-});
+})
 
-app.post("/articles", function(req, res) {
+.post(function(req, res) {
 
     const newArticle = new Article({
         title: req.body.title,
@@ -43,6 +45,16 @@ app.post("/articles", function(req, res) {
     newArticle.save(function(err) {
         if(!err) {
             res.send("Successfully added new article!!");
+        } else {
+            res.send(err);
+        }
+    });
+})
+
+.delete(function(req, res) {
+    Article.deleteMany(function(err) {
+        if (!err) {
+            res.send("Deleted all articles.")
         } else {
             res.send(err);
         }
