@@ -61,6 +61,19 @@ app.route("/articles")
     });
 });
 
+app.route("/articles/:articleTitle")
+
+.get(function(req, res) {
+    
+    Article.findOne({title: req.params.articleTitle}, function(err, results) {
+        if(!err) {
+            res.send(results);
+        } else {
+            res.send("Article not found try again.");
+        }
+    });
+});
+
 app.listen(3000, function() {
   console.log("Server started on port 3000");
 });
