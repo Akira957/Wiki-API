@@ -95,7 +95,19 @@ app.route("/articles/:articleTitle")
         function(err) {
             if(!err) {
                 res.send("Successfully Updated Article");
-                console.log(req.body);
+            } else {
+                res.send(err);
+            }
+        }
+    );
+})
+
+.delete(function(req, res) {
+    Article.deleteOne(
+        {title: req.params.articleTitle},
+        function(err) {
+            if(!err) {
+                res.send("Deleted the Article.");
             } else {
                 res.send(err);
             }
