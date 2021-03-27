@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require('mongoose');
+const e = require("express");
 
 const app = express();
 
@@ -72,6 +73,34 @@ app.route("/articles/:articleTitle")
             res.send("Article not found try again.");
         }
     });
+})
+
+.put(function(req, res) {
+    Article.replaceOne(
+        {title: req.params.articleTitle},
+        {title: req.body.title, content: req.body.content},
+        function(err) {
+            if(!err) {
+                res.send("Successfully updated Article!");
+            } else {
+                res.send(err);
+            }
+        });
+})
+
+.patch(function(req, res) {
+    Article.updateOne(
+        {title: req.params.articleTitle},
+        {$set: req.body},
+        function(err) {
+            if(!err) {
+                res.send("Successfully Updated Article");
+                console.log(req.body);
+            } else {
+                res.send(err);
+            }
+        }
+    );
 });
 
 app.listen(3000, function() {
